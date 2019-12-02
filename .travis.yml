@@ -1,0 +1,13 @@
+language: java
+install: skip
+sudo: false
+
+script:
+  # We obtain the app name we are using (git hub repo)
+  - export APPNAME=$(basename $TRAVIS_BUILD_DIR)
+ 
+  # Download, unzip and use Kiuwan Local Analyzer with user and password
+  - wget -v https://www.kiuwan.com/pub/analyzer/KiuwanLocalAnalyzer.zip
+  - unzip KiuwanLocalAnalyzer.zip -d $HOME/.
+  - $HOME/KiuwanLocalAnalyzer/bin/agent.sh --user $kiuwan_user --pass $kiuwan_password -s $TRAVIS_BUILD_DIR -n $APPNAME -c -l $TRAVIS_BUILD_ID 
+  - mvn install -Dversion.webxml=30 #this script creates the java application.
